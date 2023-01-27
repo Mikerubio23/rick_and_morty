@@ -1,0 +1,13 @@
+@font-face {
+    font-family: rick_and_morty;
+    src: url('../../assets/MISFITS_.TTF')
+}
+
+.card {
+    background-color: #f48d06cb;
+    border: solid #06d6a0;
+    font-family: rick_and_morty;
+    width: 25em;
+    height: 30em;
+    border-radius: 2em;
+}
