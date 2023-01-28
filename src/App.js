@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import './App.css'
 import Cards from './components/cards/Cards.jsx'
@@ -10,9 +11,16 @@ import characters, { Rick } from './data.js'
 import About from './components/About/About'
 import Detail from './components/Detail/Detail'
 import Error from './components/Error/Error'
+import Form from './components/Form/Form'
 
 function App () {
+  const location = useLocation();
+  const navigate = useNavigate(); 
 
+  const username = "alejo@mail.com";
+  const password = 'alejo123';
+
+  const [access,  setAccess] = useState(false);
   const [characters, setCharacters] = useState([]);
 
   // const example ={
@@ -21,6 +29,13 @@ function App () {
   //   gender: 'Male',
   //   image: 'https://rickandmortyapi.com/api/character/avatar/2.jpeg',
   // }
+
+  function login(userData){
+    if(userData.password === password && userData.username === username){
+      setAccess(true);
+      navigate('/home');
+    }
+  }
 
   const onSearch = (character)=> {
     fetch(`https://rickandmortyapi.com/api/character/${character}`)
@@ -38,10 +53,15 @@ function App () {
     setCharacters(characters.filter(char => char.id !==id))
   }
 
+  useEffect(()=>{
+    !access && navigate('/');
+  }, [access]);
+
   return (
     <div>
-    <Navbar onSearch={onSearch}/>
+    {location.pathname !== '/' && <Navbar onSearch={onSearch}/>}
     <Routes>
+      <Route exact path='/' element={<Form login={login}/>}/>
       <Route path='/home' element={<Cards characters={characters} onClose={onClose}/>}/>
       <Route path='/about' element={<About/>}/>
       <Route path='/detail/:detailId' element={<Detail/>}/>
