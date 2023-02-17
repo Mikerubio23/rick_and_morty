@@ -14,7 +14,7 @@ export default function validation (inputs){
     if(inputs.username.length > 35){
         errors.username = "Debe tener menos de 35 caracteres"
     }
-    if(!regexnumber.text(inputs.password)){
+    if(!regexnumber.test(inputs.password)){
         errors.password = "La conrasena debe tener tu nombre"
     }
     if(!regexpassword.test(inputs.password)){
